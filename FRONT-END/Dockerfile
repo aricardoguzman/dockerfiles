@@ -4,9 +4,7 @@ RUN npm install -g nodemon
 
 WORKDIR /var/www/app
 
-RUN cd /var/www/app 
-RUN git clone https://github.com/kirvi456/analisisRepo2.git . 
-RUN npm install
+RUN cd /var/www/app && git clone https://github.com/kirvi456/analisisRepo2.git . && npm install
 
 EXPOSE 8081
 

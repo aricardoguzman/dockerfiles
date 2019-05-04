@@ -1,0 +1,38 @@
+version: '3'
+services:
+    nginx:
+        build: ./NGINX/
+        tty: true
+        ports:
+            - "80:80"
+        links:
+            - polymer:polymer
+            - api:api
+        container_name: nginx
+    mongo:
+        build: ./MONGO/
+        image: mongo
+        environment:
+            MONGO_INITDB_DATABASE: banco
+        ports:
+            - "27017:27017"
+        container_name: mongo
+    api:
+        build: ./API/
+        restart: always
+        ports:
+            - 5000:80
+        links:
+            - mongo:mongo
+        container_name: api-app
+        environment:
+            MONGODB_URI: "mongodb://mongo:27017/banco"
+            PORT: 5000
+        command: npm start
+    polymer:
+        build: ./FRONT-END/
+        restart: always
+        ports:
+            - 8081:80
+        container_name: polymer-app
+        command: npm start
